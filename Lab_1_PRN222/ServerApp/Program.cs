@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 class Program
 {
-    static void ExcuteServer(string host, int port)
+    static void ExecuteServer(string host, int port)
     {
         int Count = 0;
         TcpListener server = null;
@@ -20,9 +20,10 @@ class Program
             {
                 TcpClient client = server.AcceptTcpClient();
                 Console.WriteLine($"Number of client connected: {++Count}");
+                Console.WriteLine($"IPAddress: {localAddr}");
                 Console.WriteLine(new string('*', 40));
                 Thread thread = new Thread(new ParameterizedThreadStart(ProcessMessage));
-                thread.Start();
+                thread.Start(client);
             }
         }
         catch (Exception ex)
@@ -70,6 +71,6 @@ class Program
     {
         string host = "127.0.0.1";
         int port = 8080;
-        ExcuteServer(host, port);
+        ExecuteServer(host, port);
     }
 }
